@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Roulette</title>
+ 
+
+</head>
+<body style="display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+
+    
+    
+ 
+    </script>
+    {% extends 'base.html' %}
+     {% block content %}
+
+    <form method="post" class="buttons">
+        <h3>Chat roulette</h3>
+        <div class="card">
+            <div class="card-body">
+              <form action=" " method="POST">
+                <div class="mb-3">
+                  <label class="form-label">Name:</label>
+                  <input type="text" class="form-control" id="name" placeholder="..." name="name" value="{{name}}" />
+                </div>
+                <div class="mb-3">
+                  <label  class="form-label">Room Code</label>
+                  <input type="text" class="form-control" placeholder="..." name="code" value="{{code}}">
+                </div>
+                <div class "join">
+                <button type="submit" class="btn btn-primary" name="join">Join a Room</button>
+            </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a class="btn btn-sm btn-outline-secondary" href="dashboard">Dashboard</a>
+          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="submit" name="create">
+                    Continue to checkout
+                  </button>
+                </div>
+              </form>
+            </div>
+       
+        {% if error %}
+        <ul>
+            <li>{{error}}</li>
+        </ul>
+        {% endif %}
+    </div>
+    </form>
+
+    {% endblock %}
+
+
+
+</body>
+</html>

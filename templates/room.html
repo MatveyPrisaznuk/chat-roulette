@@ -1,0 +1,250 @@
+{% extends 'base.html' %} 
+{% block content %}
+<style>
+  #messages {
+
+    margin-right: 20px;
+  }
+
+  .message-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; 
+    z-index: 9999; 
+  }
+  
+  
+  .d-flex.text-body-secondary {
+  
+    padding-left: 10px;
+  }
+
+  .timestamp {
+    margin-left: 10px; 
+  }
+
+  .muted {
+
+    margin-right: 10px;
+  }
+
+  .emoji-drawer.active {
+    opacity: 1; 
+  }
+
+  .emoji-drawer {
+    display: flex;
+    flex-direction: row; 
+    width: 100%; 
+    height: 0;
+    margin-bottom: 32px;
+    transition: height 0.2s;
+    overflow: hidden;
+  }
+  
+  .emoji-drawer.active {
+    opacity: 1;
+    height: auto !important;
+  }
+  
+  
+
+.hidden {
+  opacity: 0;
+}
+
+.emoji {
+    text-align: center;
+    font-size: 24px;
+    padding: 8px;
+}
+
+.emoji:hover {
+    cursor: pointer;
+}
+</style>
+
+
+<title>Meet</title>
+<div class="message-box">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">Chat Room: {{code}}</span>
+        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <div class="d-flex align-items-center">
+          <a href="video">
+            <img src="{{ url_for('static', filename='videocam.png') }}" alt="" width="32" height="32" class="rounded-circle me-2" style="margin-top: 2.5px;">
+        </a>
+        
+          <a class="btn btn-primary d-inline-flex align-items-center me-3" type="button" href="/">
+              Back
+          </a>
+        
+      </div>
+      
+    </a>
+  </header>
+
+
+  <div class="messages" id="messages"></div>
+  <form class="card p-2" onsubmit="event.preventDefault(); sendMessage();">
+    <div id="drawer" class="emoji-drawer hidden"> 
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😂</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🙂</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😡</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">❤️</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🤔</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😁</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😈</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🙏</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😭</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😍</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">✨</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🔥</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🥰</div>
+ 
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">😀</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🐔</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🐓</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌻</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌺</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌼</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌷</div>
+
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌲</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌳</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌴</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🌵</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🍄</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🐌</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🤓</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">🤡</div>
+      <div class="emoji" onclick="addEmoji(this.innerHTML)">💩</div>
+   
+    </div>
+    <div class="input-group">
+      <div id="emoji-picker"></div>
+
+      <input class="form-control" type="text"
+      rows="3"
+      placeholder="Message"
+      name="message"
+      id="message"
+      onkeydown="handleKeyPress(event)">
+
+
+      <button type="submit" class="btn btn-secondary">Send</button>
+   
+      <button class="btn btn-secondary1" type="button" onclick="toggleAndShowRandomEmoji()">😊</button>
+
+
+
+      
+    </div>
+
+    
+  </form>
+  
+  
+  
+  <script>
+    const startRange = 0x1F600;
+    const endRange = 0x1F64F;
+    
+
+    const emojis = Array.from({ length: endRange - startRange + 1 }, (_, index) =>
+      String.fromCodePoint(startRange + index)
+    );
+    
+    console.log(emojis);
+  
+    function showRandomEmoji() {
+      const randomIndex = Math.floor(Math.random() * emojis.length);
+  
+
+      const button = document.querySelector('.btn-secondary1');
+  
+      button.textContent = emojis[randomIndex];
+    }
+
+    function toggleAndShowRandomEmoji() {
+      toggleEmojiDrawer(); 
+      showRandomEmoji();   
+  }
+
+    function addEmoji(emoji) {
+      let message = document.getElementById('message');
+      message.value += emoji;
+    }
+    
+    function toggleEmojiDrawer() {
+      let drawer = document.getElementById('drawer');
+    
+      
+      if (drawer.classList.contains('active')) {
+ 
+        drawer.classList.remove('active');
+        drawer.style.height = '0px';
+      } else {
+
+        drawer.classList.add('active');
+        drawer.style.height = 'auto';
+      }
+    }
+  </script>
+  
+  
+  <script type="text/javascript">
+    var socketio = io();
+  
+    const messagesContainer = document.getElementById("messages");
+  
+    const createMessage = (name, msg) => {
+      const content = `
+      <div class="d-flex text-body-secondary pt-3">
+        <img src="{{ url_for('static', filename='user.png') }}" alt="" width="32" height="32" class="rounded-circle me-2">
+        <p class="pb-3 mb-0 small lh-sm border-bottom">
+          <strong class="d-block text-gray-dark">${name}</strong>
+          ${msg}
+        </p>
+      </div>
+      <div class="timestamp muted">
+        ${new Date().toLocaleString()}
+      </div>
+      `;
+      messagesContainer.innerHTML += content;
+  
+     
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    };
+  
+    socketio.on("message", (data) => {
+      createMessage(data.name, data.message);
+    });
+  
+    const sendMessage = () => {
+      const message = document.getElementById("message");
+      if (message.value == "") return;
+      socketio.emit("message", { data: message.value });
+      message.value = "";
+    };
+  
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    };
+  </script>
+  
+  {% for msg in messages %}
+    <script type="text/javascript">
+      createMessage("{{msg.name}}", "{{msg.message}}");
+    </script>
+  {% endfor %}
+  </div>
+  {% endblock %}
+  
