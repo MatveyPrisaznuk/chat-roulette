@@ -65,6 +65,69 @@
 .emoji:hover {
     cursor: pointer;
 }
+
+.button-wrapper {
+  position: relative;
+  width: 30px; 
+  text-align: center;
+  margin: 20% auto;
+}
+
+.button-wrapper img {
+  width: 10px; 
+  height: 10px;
+  margin-top: 2px;
+}
+
+
+#upload {
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.timestamp {
+  margin-left: 10px;
+  color: #6c757d; 
+  font-size: 12px; 
+}
+
+
+#copy {
+  display: inline-block;
+}
+
+.copy-button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  position: relative;
+}
+
+.copy-button i,
+.copy-button img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.copy-button img {
+  display: none; 
+}
+
+.copy-button:hover img {
+  display: inline-block; 
+}
+
 </style>
 
 
@@ -73,15 +136,24 @@
   <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
     <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
       <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fs-4">Chat Room: {{code}}</span>
+      <span class="fs-4" id="chat_code">Chat Room: {{code}}</span>
+      <div id="copy">
+        <button class="copy-button" aria-label="Copy" onclick="copyChatCode()">
+          <i class="fa fa-clipboard" aria-hidden="true"></i>
+          <img src="{{ url_for('static', filename='copy.png') }}" alt="Copy Icon" width="25" height="25">
+        </button>
+        
+      </div>
+      
         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        
         <div class="d-flex align-items-center">
           <a href="video">
             <img src="{{ url_for('static', filename='videocam.png') }}" alt="" width="32" height="32" class="rounded-circle me-2" style="margin-top: 2.5px;">
         </a>
         
           <a class="btn btn-primary d-inline-flex align-items-center me-3" type="button" href="/">
-              Back
+              X
           </a>
         
       </div>
@@ -127,6 +199,11 @@
    
     </div>
     <div class="input-group">
+      <button class="btn btn-secondary2" type="button">
+       <div>
+        <img src="{{ url_for('static', filename='micro.png') }}" alt="" width="32" height="32">
+       </div>
+      </button>
       <div id="emoji-picker"></div>
 
       <input class="form-control" type="text"
@@ -137,8 +214,22 @@
       onkeydown="handleKeyPress(event)">
 
 
-      <button type="submit" class="btn btn-secondary">Send</button>
-   
+        
+      <button type="submit" class="btn btn-secondary3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+        <div>
+            <img src="{{ url_for('static', filename='send.png') }}" alt="" width="32" height="32">
+        </div>
+    </button>
+    
+    
+      
+      <button class="btn btn-secondary3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+        <div class="button-wrapper">
+          <img src="{{ url_for('static', filename='file.png') }}" alt="" width="32" height="32"  style="margin-top: 2.5px;">
+          <input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File">
+        </div>
+        </button>
+      </button>
       <button class="btn btn-secondary1" type="button" onclick="toggleAndShowRandomEmoji()">😊</button>
 
 
@@ -148,6 +239,56 @@
 
     
   </form>
+  
+  <script>
+    function copyChatCode() {
+      var chatCode = document.getElementById('chat_code');
+      var tempInput = document.createElement('input');
+      tempInput.value = chatCode.textContent;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+    }
+  </script>
+  
+
+  <script type="text/javascript">
+    function handleFileSelect(event) {
+      const fileInput = event.target;
+      const messageInput = document.getElementById("message");
+  
+      if (fileInput.files.length > 0) {
+        const selectedFile = fileInput.files[0];
+        const fileURL = URL.createObjectURL(selectedFile);
+  
+     
+        const fileType = selectedFile.type.split("/")[0];
+  
+        if (fileType === "image") {
+          messageInput.value += `<img src="${fileURL}" alt="uploaded file" />`;
+        } else if (fileType === "video") {
+          messageInput.value += `<video width="320" height="240" controls>
+                                  <source src="${fileURL}" type="video/mp4">
+                                  Your browser does not support the video tag.
+                                </video>`;
+        } else if (fileType === "audio") {
+          messageInput.value += `<audio controls>
+                                  <source src="${fileURL}" type="audio/mp3">
+                                  Your browser does not support the audio tag.
+                                </audio>`;
+        } else if (fileType === "application" && selectedFile.name.endsWith(".exe")) {
+     
+          messageInput.value += `<a href="${fileURL}" download="${selectedFile.name}">${selectedFile.name}</a>`;
+        } else {
+    
+        }
+      }
+    }
+  
+    document.getElementById("upload").addEventListener("change", handleFileSelect);
+  </script>
+  
   
   
   
@@ -209,10 +350,12 @@
         <img src="{{ url_for('static', filename='user.png') }}" alt="" width="32" height="32" class="rounded-circle me-2">
         <p class="pb-3 mb-0 small lh-sm border-bottom">
           <strong class="d-block text-gray-dark">${name}</strong>
+          <a> | </a>
           ${msg}
         </p>
       </div>
       <div class="timestamp muted">
+        <span class="timestamp-icon" aria-hidden="true">🕒</span> 
         ${new Date().toLocaleString()}
       </div>
       `;

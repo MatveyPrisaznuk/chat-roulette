@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %} 
+{% block content %}
 <head>
   <title>Register page</title>
   <meta charset="utf-8">
@@ -15,6 +15,9 @@
     <div class=" row justify-content-center">
         <div class="col-sm-6 mt-4">
             <h2>Register form</h2>
+            <p class="pb-3 mb-0 small lh-sm border-bottom">
+            </p>
+        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <form action="/register" method="POST">
                 <div class="form-group">
                 <label for="name">Name:</label>
@@ -33,6 +36,9 @@
 
                 <button type="submit" class="btn btn-dark">Submit</button>
                 <a href="/login" class="btn btn-primary">Login</a>
+                <a class="btn btn-outline-secondary d-inline-flex align-items-center" href="/">
+                    Back
+                </a>
             </form>
         </div>
     </div>
@@ -40,4 +46,4 @@
 </div>
 
 </body>
-</html>
+{% endblock %}

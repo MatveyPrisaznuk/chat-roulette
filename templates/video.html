@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+  <style>
+    #video-container {
+      text-align: center;
+    }
+
+    #video {
+      width: 100%;
+      max-width: 640px;
+      margin: 20px auto;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+    }
+
+    #controls {
+      margin-top: 10px;
+    }
+  </style>
+
+  <title>Video</title>
+  <div id="video-container">
+    <h2>Video Stream</h2>
+    <div>
+    <a class="btn btn-primary d-inline-flex align-items-center mt-3" type="button" href="/">
+        Back to Home
+      </a>
+      <div>
+    <video id="video" autoplay playsinline></video>
+
+    <div id="controls">
+      <button id="startButton" class="btn btn-primary" onclick="startVideo()">Start Camera</button>
+      <button id="stopButton" class="btn btn-danger" onclick="stopVideo()" disabled>Stop Camera</button>
+      
+    </div>
+  </div>
+
+  <script>
+    let videoStream;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const videoElement = document.getElementById('video');
+
+      function startVideo() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then((stream) => {
+            videoStream = stream;
+            videoElement.srcObject = stream;
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('stopButton').disabled = false;
+          })
+          .catch((error) => {
+            console.error('Error azccessing camera:', error);
+          });
+      }
+
+     
+      function stopVideo() {
+        if (videoStream) {
+          const tracks = videoStream.getTracks();
+          tracks.forEach(track => track.stop());
+          videoElement.srcObject = null;
+          document.getElementById('startButton').disabled = false;
+          document.getElementById('stopButton').disabled = true;
+        }
+      }
+
+     
+      document.getElementById('startButton').addEventListener('click', startVideo);
+      document.getElementById('stopButton').addEventListener('click', stopVideo);
+    });
+  </script>
+
+
+{% endblock %}

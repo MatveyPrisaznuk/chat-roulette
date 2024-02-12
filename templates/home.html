@@ -1,7 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+  h1 {
+    animation: move 5s forwards;
+    -webkit-animation: move 5s forwards;
+  }
+  
+  @keyframes move {
+    from {
+      margin-left: 50%;
+      width: 300%; 
+    }
+  
+    to {
+      margin-left: 0%;
+      width: 100%;
+    }
+  }
+              
+  @-webkit-keyframes move {
+    from {
+      margin-left: 100%;
+      width: 300%; 
+    }
+  
+    to {
+      margin-left: 0%;
+      width: 100%;
+    }
+  }
 
+  .emoji {
+    font-size: 85px;
+    min-width: 1.4em;
+    margin: 0.3em 0.4em;
+    text-align: center;
+}
+  .emoji::after {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.clock::after {
+    content: '🕛';
+    animation-name: clock;
+    animation-duration: 5s;
+}
+
+@keyframes clock {
+  8.333% {
+      content: '🕐';
+  }
+
+  16.666% {
+      content: '🕑';
+  }
+
+  25% {
+      content: '🕒';
+  }
+
+  33.333% {
+      content: '🕓';
+  }
+
+  41.666% {
+      content: '🕔';
+  }
+
+  50% {
+      content: '🕕';
+  }
+
+  58.333% {
+      content: '🕖';
+  }
+
+  66.666% {
+      content: '🕗';
+  }
+
+  75% {
+      content: '🕘';
+  }
+
+  83.333% {
+      content: '🕙';
+  }
+
+  91.666% {
+      content: '🕚';
+  }
+}
+
+
+.css2 {
+  color: black;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;  
+  position: absolute;
+  top: 20px; 
+  left: 20px; 
+}
+</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Roulette</title>
@@ -10,15 +115,19 @@
 </head>
 <body style="display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
 
-    
+   
+  <marquee class="css2" direction="left">
+    {{ text }}
+  </marquee>
     
  
     </script>
     {% extends 'base.html' %}
      {% block content %}
-
+     <span class="emoji clock" role="img" aria-label="clock"></span>
     <form method="post" class="buttons">
-        <h3>Chat roulette</h3>
+
+       <h1>Chat-roulette</h1>
         <div class="card">
             <div class="card-body">
               <form action=" " method="POST">

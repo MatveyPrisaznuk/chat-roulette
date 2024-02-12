@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
-from flask_socketio import join_room, leave_room, send, SocketIO,emit
+from flask_socketio import join_room, leave_room, send, SocketIO
 import random
 from string import ascii_uppercase
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
-
+import random
 
 
 
@@ -13,6 +13,14 @@ socketio = SocketIO(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 app.secret_key = 'secret_key'
+
+text = [
+    'Hello World ^ ^',
+    'By q1dox',
+    'be polite when dealing with people',
+    'Do not share confidential information with anyone',
+    'We are not responsible for any damage caused by you.'
+]
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,22 +43,26 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
-@app.route('/register',methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-      
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
 
-        new_user = User(name=name,email=email,password=password)
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+           
+            return redirect('/register')
+
+        new_user = User(name=name, email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
         return redirect('/login')
 
-
-
     return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -113,7 +125,7 @@ def generate_unique_code(length):
 
 @app.route("/", methods=["POST", "GET"])
 def home():
-   
+    random_text = random.choice(text)
     session.clear()
     if request.method == "POST":
         name = request.form.get("name")
@@ -141,7 +153,7 @@ def home():
         session["name"] = name
         return redirect(url_for("room"))
 
-    return render_template("home.html")
+    return render_template("home.html",text=random_text)
 
 @app.route("/room")
 def room():
