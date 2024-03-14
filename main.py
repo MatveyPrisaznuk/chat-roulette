@@ -16,7 +16,6 @@ app.secret_key = 'secret_key'
 
 text = [
     'Hello World ^ ^',
-    'By q1dox',
     'be polite when dealing with people',
     'Do not share confidential information with anyone',
     'We are not responsible for any damage caused by you.'
