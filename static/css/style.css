@@ -4,11 +4,6 @@
   justify-content: center;
 }
 
-html {
-  min-height: 100vh;
-  cursor: url("https://raw.githubusercontent.com/WebDevSimplified/Mix-Or-Match/master/Assets/Cursors/GhostHover.cur"), auto;
-}
-
 .buttons {
   display: flex;
   flex-direction: column;
