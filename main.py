@@ -44,11 +44,11 @@ def home():
         create = request.form.get("create", False)
 
         if not name:
-            flash('Введіть нікнейм','warning')
+            flash('Enter your nickname','warning')
             return render_template("home.html", code=code, name=name)
 
         if join != False and not code:
-            flash('Введіть код room','warning')
+            flash('Enter RoomCode','warning')
             return render_template("home.html", code=code, name=name)
         
         room = code
@@ -56,7 +56,7 @@ def home():
             room = generate_unique_code(4)
             rooms[room] = {"members": 0, "messages": []}
         elif code not in rooms:
-            flash('Кімнати не існує','warning')
+            flash('Room does not exist','warning')
             return render_template("home.html", code=code, name=name)
         
         session["room"] = room
