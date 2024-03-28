@@ -3,10 +3,16 @@ from flask_socketio import join_room, leave_room, send, SocketIO
 from string import ascii_uppercase
 import random
 
-app = Flask(__name__)
+# ↑ imports (important)
+
+
+# -------
+
+app = Flask(__name__) # ← create an instance of this class
 socketio = SocketIO(app)
 app.secret_key = 'secret_key'
 
+# -------
 
 
 text = [
@@ -16,11 +22,15 @@ text = [
     'We are not responsible for any damage caused by you.'
 ]
 
+# ↑ my list for home.html
+
 @app.route('/video')
-def video():
- return render_template('video.html')
+def video(): 
+ return render_template('video.html') # ← return html page, function create and create page adress
     
 rooms = {}
+
+# -------
 
 def generate_unique_code(length):
     while True:
@@ -31,7 +41,10 @@ def generate_unique_code(length):
         if code not in rooms:
             break
     
-    return code
+    return code # ← function, that returns random code for room.html
+
+# -------
+
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -65,6 +78,9 @@ def home():
 
     return render_template("home.html",text=random_text)
 
+# -------
+
+
 @app.route("/room")
 def room():
     room = session.get("room")
@@ -72,6 +88,9 @@ def room():
         return redirect(url_for("home"))
 
     return render_template("room.html", code=room, messages=rooms[room]["messages"])
+
+# -------
+
 
 @socketio.on("message")
 def message(data):
@@ -86,6 +105,9 @@ def message(data):
     send(content, to=room)
     rooms[room]["messages"].append(content)
     print(f"{session.get('name')} said: {data['data']}")
+    
+# -------    
+
 
 @socketio.on("connect")
 def connect(auth):
@@ -101,6 +123,10 @@ def connect(auth):
     send({"name": name, "message": "has entered the room"}, to=room)
     rooms[room]["members"] += 1
     print(f"{name} joined room {room}")
+    
+
+# -------
+
 
 @socketio.on("disconnect")
 def disconnect():
@@ -117,7 +143,7 @@ def disconnect():
     print(f"{name} has left the room {room}")
     
     
-    
+# -------    
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
