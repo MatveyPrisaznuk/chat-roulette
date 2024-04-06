@@ -3,16 +3,12 @@ from flask_socketio import join_room, leave_room, send, SocketIO
 from string import ascii_uppercase
 import random
 
-# ↑ imports (important)
 
-
-# -------
-
-app = Flask(__name__) # ← create an instance of this class
+app = Flask(__name__) 
 socketio = SocketIO(app)
 app.secret_key = 'secret_key'
 
-# -------
+
 
 
 text = [
@@ -22,15 +18,15 @@ text = [
     'We are not responsible for any damage caused by you.'
 ]
 
-# ↑ my list for home.html
+
 
 @app.route('/video')
 def video(): 
- return render_template('video.html') # ← return html page, function create and create page adress
+ return render_template('video.html') 
     
 rooms = {}
 
-# -------
+
 
 def generate_unique_code(length):
     while True:
@@ -41,9 +37,9 @@ def generate_unique_code(length):
         if code not in rooms:
             break
     
-    return code # ← function, that returns random code for room.html
+    return code 
 
-# -------
+
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -57,11 +53,11 @@ def home():
         create = request.form.get("create", False)
 
         if not name:
-            flash('Enter your nickname','warning')
+            flash('Enter your Nickname','warning')
             return render_template("home.html", code=code, name=name)
 
         if join != False and not code:
-            flash('Enter RoomCode','warning')
+            flash('Enter your RoomCode','warning')
             return render_template("home.html", code=code, name=name)
         
         room = code
@@ -78,7 +74,7 @@ def home():
 
     return render_template("home.html",text=random_text)
 
-# -------
+
 
 
 @app.route("/room")
@@ -89,7 +85,7 @@ def room():
 
     return render_template("room.html", code=room, messages=rooms[room]["messages"])
 
-# -------
+
 
 
 @socketio.on("message")
@@ -106,7 +102,7 @@ def message(data):
     rooms[room]["messages"].append(content)
     print(f"{session.get('name')} said: {data['data']}")
     
-# -------    
+  
 
 
 @socketio.on("connect")
@@ -125,7 +121,7 @@ def connect(auth):
     print(f"{name} joined room {room}")
     
 
-# -------
+
 
 
 @socketio.on("disconnect")
@@ -143,7 +139,6 @@ def disconnect():
     print(f"{name} has left the room {room}")
     
     
-# -------    
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
