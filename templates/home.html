@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+<title>Chat Roulette</title>
 <head>
 <style>
   h1 {
@@ -108,11 +109,6 @@
 }
 
 </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Roulette</title>
- 
-
 </head>
 <body style="display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
 
@@ -122,11 +118,9 @@
   </marquee>
     
  
-    </script>
-    {% extends 'base.html' %}
-     {% block content %}
-     <span class="emoji clock" role="img" aria-label="clock"></span>
-    <form method="post" class="buttons">
+   
+    <span class="emoji clock" role="img" aria-label="clock"></span>
+  <form method="post" class="buttons">
 
        <h1>Chat-roulette ></h1>
         <div class="card">
@@ -166,6 +160,6 @@
         </ul>
         {% endif %}
     </div>
-    </form>
-  
+  </form>
+</body> 
 {% endblock %}

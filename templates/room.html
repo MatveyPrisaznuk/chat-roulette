@@ -1,5 +1,7 @@
 {% extends 'base.html' %} 
 {% block content %}
+<title>Meet</title>
+<head>
 <style>
   #messages {
 
@@ -26,21 +28,12 @@
     margin-left: 10px; 
   }
 
-  .muted {
-
-    margin-right: 10px;
-  }
-
-  .emoji-drawer.active {
-    opacity: 1; 
-  }
-
   .emoji-drawer {
     display: flex;
     flex-direction: row; 
     width: 100%; 
     height: 0;
-    margin-bottom: 32px;
+    margin-bottom: 22px;
     transition: height 0.2s;
     overflow: hidden;
   }
@@ -49,12 +42,6 @@
     opacity: 1;
     height: auto !important;
   }
-  
-  
-
-.hidden {
-  opacity: 0;
-}
 
 .emoji {
     text-align: center;
@@ -112,15 +99,11 @@
   position: relative;
 }
 
-.copy-button i,
 .copy-button img {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.copy-button img {
   display: none; 
 }
 
@@ -138,13 +121,13 @@
 
 }
 
-
 #chat_code {
   float: left; 
 }
 
 #search-container {
   margin-left: 420px; 
+  position: relative; 
 }
 
 .a1 {
@@ -153,9 +136,6 @@
   padding: 5px; 
 }
 
-#search-container {
-  position: relative; 
-}
 
 #search-container img.overlay {
   position: absolute;
@@ -166,13 +146,14 @@
 }
 
 </style>
+</head>
 
 
-<title>Meet</title>
+<body>
 <div class="message-box">
   <header class="bg-body-tertiary d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
     <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-      <svg class="bi me-2" width="12" height="12"><use xlink:href="#bootstrap"></use></svg>
+      <svg class="bi me-2" width="12" height="12"></svg>
       <div class="emoji">🔴</div>
       <span class="fs-4" id="chat_code">Chat Room: {{code}}</span>
       <div id="copy">
@@ -273,11 +254,11 @@
 
 
         
-      <button type="submit" class="btn btn-secondary3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+     <button type="submit" class="btn btn-secondary3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
         <div>
           <img width="25" height="25" src="https://img.icons8.com/metro/26/sent.png" alt="sent"/>
         </div>
-    </button>
+     </button>
     
     
       
@@ -375,7 +356,7 @@
           ${msg}
         </p>
       </div>
-      <div class="timestamp muted">
+      <div class="timestamp">
         <span class="timestamp-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stopwatch" viewBox="0 0 16 16">
           <path d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5z"/>
           <path d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64l.012-.013.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5M8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3"/>
@@ -413,5 +394,6 @@
     </script>
   {% endfor %}
   </div>
-  {% endblock %}
+</body>
+{% endblock %}
   

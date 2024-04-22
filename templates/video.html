@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+<title>Video Chat</title>
+<head>
   <style>
     #video-container {
       text-align: center;
@@ -17,13 +19,14 @@
       margin-top: 10px;
     }
   </style>
-
-  <title>Video</title>
+</head>
+  
+<body>
   <div id="video-container">
     <h2>Video Stream</h2>
     <div>
     <a class="btn btn-primary d-inline-flex align-items-center mt-3" type="button" href="/">
-        Back to Home
+        Back
       </a>
       <div>
     <video id="video" autoplay playsinline></video>
@@ -72,5 +75,5 @@
     });
   </script>
 
-
+</body>
 {% endblock %}
